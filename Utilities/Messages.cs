@@ -12,5 +12,6 @@ namespace Utilities
     public static class Messages
     {
         public const string TXN_REALIZADA_OK = "Transacción realizada correctamente.";
+        public const string PROPIEDAD_VACIA = "La propiedad se encuentra vacía.";
     }
 }

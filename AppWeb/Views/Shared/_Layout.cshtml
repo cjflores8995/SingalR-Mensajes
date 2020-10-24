@@ -23,8 +23,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Mensajes", "Message", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -38,6 +37,9 @@
         </footer>
     </div>
 
+    @Html.Partial("_Notificacion")
+
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/signalr")
@@ -46,20 +48,54 @@
     <script src="~/signalr/hubs"></script>
     <script>
         $(document).ready(function () {
+
+            function alertaNotification(texto) {
+                console.log(texto);
+
+                $('#txt-message').text(texto);
+                jQuery('#toast-notification').toast('show');
+            }
+
+            function setTotalNotification(totalNotificaciones) {
+                console.log(totalNotificaciones);
+
+                $('#messages').html(`<span class="badge badge-pill badge-danger">${totalNotificaciones}</badge>`);
+            }
+
             var hub = $.connection.mainHub;
+
+            //llamada del cliente
+            hub.client.broadcastNotificaciones = function (totalNotificaciones) {
+                setTotalNotification(totalNotificaciones);
+            }
+
+            //llamada cuando se envie un nuevo mensaje
+            hub.client.showNotificaciones = function (texto) {
+                alertaNotification(texto);
+            }
+
+            //llamada de notificacion global
+            hub.client.sendGlobalNotification = function (message) {
+                alertaNotification(message);
+            }
+
+            //llamada de notificacion global, excepto al emisor
+            hub.client.sendGlobalNotificationExcept = function (message) {
+                alertaNotification(message);
+            }
 
             $.connection.hub.start()
                 .done(function () {
                     console.log('Hub conectado correctamente!');
+
+                    //llamada al servidor
+                    hub.server.getNotification();
                 })
                 .fail(function () {
                     console.error('No se pudo conectar!');
                 });
         });
     </script>
-    @*Importante!: No borrar, ya que este el código de arranque de signalR*@
-
-
     @*Importante!: No borrar, ya que este el código de arranque de signalR*@
 
     @RenderSection("scripts", required: false)

@@ -1,0 +1,25 @@
+﻿@model Entities.Models.MainEntity
+
+<h3>Envía un mensaje</h3>
+
+<div id="messages"></div>
+
+<hr />
+
+
+<div class="form-group">
+    <label class="text-primary"><i class="fa fa-user"></i>  Email del usuario </label>
+    <input type="text" class="form-control" placeholder="Email del usuario" id="toUser" autofocus required />
+</div>
+
+<div class="form-group">
+    <label class="text-primary"><i class="fa fa-keyboard"></i>  Mensaje </label>
+    <br />
+    <textarea required id="myMessage" class="form-control" cols="30" rows="4" placeholder="Escribe un mensaje..."></textarea>
+</div>
+
+<div class="form-group">
+    <button type="submit" id="submit" class="btn btn-outline-primary btn-square"><i class="fab fa-telegram"></i> Enviar mensaje</button>
+</div>
+
+

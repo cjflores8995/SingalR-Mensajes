@@ -16,6 +16,15 @@ namespace DataAccess
             Database.SetInitializer<ApplicationDbContext>(new DropCreateDatabaseIfModelChanges<ApplicationDbContext>());
         }
 
+        public virtual DbSet<Mensaje> Mensajes { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Mensaje>().ToTable("Mensajes");
+
+            base.OnModelCreating(modelBuilder);
+        }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

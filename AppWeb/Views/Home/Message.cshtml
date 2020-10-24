@@ -1,0 +1,91 @@
+﻿@model Entities.Models.MainEntity
+@{
+    ViewBag.Title = "View";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        @Html.Partial("~/Views/Home/Message_Form_Enviar.cshtml")
+    </div>
+    <div class="col-md-6">
+        <h3>Usuarios Existentes</h3>
+        @if (Model.Usuarios.Any())
+        {
+            <ul>
+                @foreach (var user in Model.Usuarios)
+                {
+                    <li>
+                        <a href="javascript:void(0)" id="@user.Email" onclick="LoadEmail(this.id)">@user.Email</a>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>No se han encontrado usuarios!</p>
+        }
+        <hr />
+        <button id="not-global" class="btn btn-outline-primary btn-square"><i class="fa fa-bell"></i> Enviar notificación global</button>
+        <hr />
+        <button id="not-global-except" class="btn btn-outline-primary btn-square"><i class="fa fa-bell-slash"></i> Enviar notificación global, escepto yo!</button>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+
+        $('#not-global').click(function (e) {
+            $.ajax({
+                type: 'POST',
+                url: '/Logic/SendNotificacionGlobal',
+                success: function (data) {
+                    console.log('notificación enviada correctamente');
+                },
+                error: function (err) {
+                    console.error(err.responseText);
+                }
+            });
+        });
+
+        $('#not-global-except').click(function (e) {
+
+            $.ajax({
+                type: 'POST',
+                url: '/Logic/SendNotificacionGlobalExcept',
+                success: function (data) {
+                    console.log('notificación enviada correctamente');
+                },
+                error: function (err) {
+                    console.error(err.responseText);
+                }
+            });
+        });
+
+        $('#submit').click(function (e) {
+
+            let message = $('#myMessage').val();
+            let sendToUser = $('#toUser').val();
+
+            let Notificacion = { UserId: sendToUser, Message: message };
+
+            $.ajax({
+                type: 'POST',
+                url: '/Logic/SendMessage',
+                data: JSON.stringify(Notificacion),
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    $('#toUser').val('').focus();
+                    $('#myMessage').val('');
+                },
+                error: function (err) {
+                    console.error(err.responseText);
+                }
+            });
+        });
+
+        function LoadEmail(email) {
+            $('#toUser').val(email);
+            $('#myMessage').focus();
+        }
+    </script>
+}

@@ -55,6 +55,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\Common.cs" />
+    <Compile Include="Models\MainEntity.cs" />
+    <Compile Include="Models\Mensaje.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

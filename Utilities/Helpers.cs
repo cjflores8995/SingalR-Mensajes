@@ -19,5 +19,28 @@ namespace Utilities
         {
             return DateTime.Now.Ticks.ToString();
         }
+
+        //corta caracteres
+        public static string Truncar(this string valor, int numeroCaracteres = 20)
+        {
+
+            if (string.IsNullOrEmpty(valor))
+            {
+                return "null";
+            }
+            else
+            {
+                if (valor.Length <= numeroCaracteres)
+                {
+                    return valor;
+                }
+                else
+                {
+                    return valor.Substring(0, numeroCaracteres) + "...";
+                }
+            }
+        }
+
+
     }
 }

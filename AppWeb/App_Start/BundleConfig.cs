@@ -32,9 +32,9 @@ namespace AppWeb
 
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
+                        "~/Content/bootstrap.css",
                         "~/Content/Dashmix/assets/css/dashmix.min.css",
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                        "~/Content/site.css"));
         }
     }
 }
